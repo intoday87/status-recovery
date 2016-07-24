@@ -1,0 +1,18 @@
+<div data-component="form"></div>
+<script type="text/javascript">
+    var store;
+    (function (redux) {
+        var reducer = redux.combineReducers({
+            form: Bundle.form.reducer
+        });
+        window.store = redux.createStore(reducer, {
+            form: {
+                {{#if form}}
+                    name    : '{{form.name}}',
+                    password: '{{form.password}}'
+                {{/if}}
+            }
+        });
+        Bundle.form.build(window.store);
+    })(Bundle.redux);
+</script>
