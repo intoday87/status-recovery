@@ -4,15 +4,18 @@ define([
   './form.scss'
 ], function ($, tmpl) {
   var DOM = {
-      form    : '[data-form]',
-      name    : 'input[name="name"]',
-      password: 'input[type="password"]',
+      component: '[data-component="form"]',
+      form     : '[data-form]',
+      name     : 'input[name="name"]',
+      password : 'input[type="password"]',
     },
     ACTION_TYPE = 'FORM_DATA';
 
   function formActionCreator() {
     return {
-      type: ACTION_TYPE
+      type: ACTION_TYPE,
+      email: $(DOM.name).val(),
+      password: $(DOM.password).val()
     }
   }
 
@@ -34,8 +37,8 @@ define([
       switch (action.type) {
         case ACTION_TYPE:
           return {
-            name    : $(DOM.name).val(),
-            password: $(DOM.password).val()
+            name    : action.email,
+            password: action.password
           };
         default:
           return state;
@@ -46,10 +49,10 @@ define([
       store.subscribe(function () {
         var state = store.getState();
         window.console.log("subscribed state : " + (typeof state === 'object' ? JSON.stringify(state) : state));
-        $('[data-component="form"]').html(tmpl(store.getState().form));
+        $(DOM.component).html(tmpl(store.getState().form));
       });
 
-      $('[data-component="form"]').html(tmpl(store.getState().form));
+      $(DOM.component).html(tmpl(store.getState().form));
     }
   }
 });
